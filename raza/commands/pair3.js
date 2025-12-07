@@ -4,32 +4,32 @@ const path = require("path");
 const { Jimp } = require("jimp");
 
 module.exports.config = {
-  name: "sibling",
+  name: "pair3",
   version: "1.0.0",
   hasPermssion: 0,
   credits: "KASHIF RAZA",
-  description: "Create a brother-sister bond edit with circular profile pics",
-  commandCategory: "Family",
+  description: "Create a romantic pair edit with profile pics",
+  commandCategory: "Love",
   usages: "[@mention optional]",
   cooldowns: 5,
 };
 
 const cacheDir = path.join(__dirname, "cache", "canvas");
-const templateUrl = "https://i.ibb.co/0y2yrChH/2dceaa7401c6.jpg";
-const templatePath = path.join(cacheDir, "brothersister_template.png");
+const templateUrl = "https://i.ibb.co/q3DDkP9D/9fe55575821c.jpg";
+const templatePath = path.join(cacheDir, "pair_template.png");
 
 const maleNames = ["ali", "ahmed", "muhammad", "hassan", "hussain", "kashif", "raza", "usman", "bilal", "hamza", "asad", "zain", "fahad", "faisal", "imran", "kamran", "adnan", "arslan", "waqas", "waseem", "irfan", "junaid", "khalid", "nadeem", "naveed", "omer", "qasim", "rizwan", "sajid", "salman", "shahid", "tariq", "umar", "yasir", "zahid"];
 const femaleNames = ["fatima", "ayesha", "maria", "sana", "hira", "zara", "maryam", "khadija", "sara", "amina", "bushra", "farah", "iqra", "javeria", "kinza", "laiba", "maham", "nadia", "rabia", "saima", "tahira", "uzma", "zainab", "anam", "asma", "dua", "esha", "fiza", "huma", "iram"];
 
-const siblingMessages = [
-  "𝐁𝐫𝐨𝐭𝐡𝐞𝐫 & 𝐒𝐢𝐬𝐭𝐞𝐫 𝐁𝐨𝐧𝐝 👫",
-  "𝐒𝐢𝐛𝐥𝐢𝐧𝐠𝐬 𝐅𝐨𝐫𝐞𝐯𝐞𝐫 💕",
-  "𝐖𝐨𝐫𝐥𝐝 𝐁𝐞𝐬𝐭 𝐑𝐞𝐥𝐚𝐭𝐢𝐨𝐧𝐬𝐡𝐢𝐩 🌟",
-  "𝐁𝐞𝐬𝐭 𝐅𝐫𝐢𝐞𝐧𝐝𝐬 𝐅𝐨𝐫 𝐋𝐢𝐟𝐞 👊",
-  "𝐔𝐧𝐛𝐫𝐞𝐚𝐤𝐚𝐛𝐥𝐞 𝐁𝐨𝐧𝐝 💪",
-  "𝐌𝐲 𝐏𝐫𝐨𝐭𝐞𝐜𝐭𝐨𝐫, 𝐌𝐲 𝐁𝐞𝐬𝐭𝐢𝐞 🛡️",
-  "𝐁𝐥𝐨𝐨𝐝 𝐢𝐬 𝐓𝐡𝐢𝐜𝐤𝐞𝐫 𝐓𝐡𝐚𝐧 𝐖𝐚𝐭𝐞𝐫 ❤️",
-  "𝐒𝐢𝐛𝐥𝐢𝐧𝐠 𝐆𝐨𝐚𝐥𝐬 🎯"
+const romanticMessages = [
+  "𝐓𝐰𝐨 𝐬𝐨𝐮𝐥𝐬, 𝐨𝐧𝐞 𝐡𝐞𝐚𝐫𝐭 💖",
+  "𝐋𝐨𝐯𝐞 𝐢𝐬 𝐢𝐧 𝐭𝐡𝐞 𝐚𝐢𝐫 💕",
+  "𝐏𝐞𝐫𝐟𝐞𝐜𝐭 𝐦𝐚𝐭𝐜𝐡 𝐦𝐚𝐝𝐞 𝐢𝐧 𝐡𝐞𝐚𝐯𝐞𝐧 🌹",
+  "𝐓𝐨𝐠𝐞𝐭𝐡𝐞𝐫 𝐟𝐨𝐫𝐞𝐯𝐞𝐫 💞",
+  "𝐌𝐲 𝐡𝐞𝐚𝐫𝐭 𝐛𝐞𝐥𝐨𝐧𝐠𝐬 𝐭𝐨 𝐲𝐨𝐮 💗",
+  "𝐋𝐨𝐯𝐞 𝐚𝐭 𝐟𝐢𝐫𝐬𝐭 𝐬𝐢𝐠𝐡𝐭 ❤️",
+  "𝐘𝐨𝐮 𝐚𝐫𝐞 𝐦𝐲 𝐞𝐯𝐞𝐫𝐲𝐭𝐡𝐢𝐧𝐠 💝",
+  "𝐒𝐨𝐮𝐥𝐦𝐚𝐭𝐞𝐬 𝐟𝐨𝐫 𝐥𝐢𝐟𝐞 🥀"
 ];
 
 async function downloadTemplate() {
@@ -113,7 +113,7 @@ module.exports.run = async ({ api, event }) => {
       const filteredMembers = members.filter(m => m !== senderID);
 
       if (filteredMembers.length === 0) {
-        return api.sendMessage("≿━━━━༺❀༻━━━━≾\n❌ 𝐍𝐨 𝐦𝐞𝐦𝐛𝐞𝐫𝐬 𝐟𝐨𝐮𝐧𝐝!\n≿━━━━༺❀༻━━━━≾", threadID, messageID);
+        return api.sendMessage("≿━━━━༺❀༻━━━━≾\n❌ 𝐍𝐨 𝐦𝐞𝐦𝐛𝐞𝐫𝐬 𝐟𝐨𝐮𝐧𝐝 𝐭𝐨 𝐩𝐚𝐢𝐫!\n≿━━━━༺❀༻━━━━≾", threadID, messageID);
       }
 
       let oppositeGenderMembers = [];
@@ -140,33 +140,26 @@ module.exports.run = async ({ api, event }) => {
     const avatarOne = await getAvatar(one);
     const avatarTwo = await getAvatar(two);
 
-    const circleOne = await makeCircularImage(avatarOne, 210);
-    const circleTwo = await makeCircularImage(avatarTwo, 210);
+    const circleOne = await makeCircularImage(avatarOne, 117);
+    const circleTwo = await makeCircularImage(avatarTwo, 117);
 
     const template = await Jimp.read(templatePath);
 
-    template.composite(circleOne, 85, 90);
-    template.composite(circleTwo, 440, 100);
+    template.composite(circleOne, 48, 175);
+    template.composite(circleTwo, 310, 170);
 
-    const outputPath = path.join(cacheDir, `brothersister_${one}_${two}_${Date.now()}.png`);
+    const outputPath = path.join(cacheDir, `pair_${one}_${two}_${Date.now()}.png`);
     await template.write(outputPath);
 
     const userOneInfo = await getUserInfo(api, one);
     const userTwoInfo = await getUserInfo(api, two);
     const nameOne = userOneInfo.name || "User 1";
     const nameTwo = userTwoInfo.name || "User 2";
-    
-    const oneGender = userOneInfo.gender === 1 ? "female" : userOneInfo.gender === 2 ? "male" : detectGender(nameOne);
-    const twoGender = userTwoInfo.gender === 1 ? "female" : userTwoInfo.gender === 2 ? "male" : detectGender(nameTwo);
-    
-    let roleOne = oneGender === "male" ? "𝐁𝐑𝐎𝐓𝐇𝐄𝐑" : "𝐒𝐈𝐒𝐓𝐄𝐑";
-    let roleTwo = twoGender === "male" ? "𝐁𝐑𝐎𝐓𝐇𝐄𝐑" : "𝐒𝐈𝐒𝐓𝐄𝐑";
-    
-    const randomMsg = siblingMessages[Math.floor(Math.random() * siblingMessages.length)];
+    const randomMsg = romanticMessages[Math.floor(Math.random() * romanticMessages.length)];
 
     api.sendMessage(
       {
-        body: `≿━━━━༺👫༻━━━━≾\n\n${randomMsg}\n\n👤 ${nameOne} (${roleOne})\n💕 𝐁𝐎𝐍𝐃𝐄𝐃 𝐖𝐈𝐓𝐇 💕\n👤 ${nameTwo} (${roleTwo})\n\n≿━━━━༺👫༻━━━━≾`,
+        body: `≿━━━━༺💝༻━━━━≾\n\n${randomMsg}\n\n👤 ${nameOne}\n💕 𝐏𝐀𝐈𝐑𝐄𝐃 𝐖𝐈𝐓𝐇 💕\n👤 ${nameTwo}\n\n≿━━━━༺💝༻━━━━≾`,
         attachment: fs.createReadStream(outputPath),
         mentions: [
           { tag: nameOne, id: one },
@@ -179,7 +172,7 @@ module.exports.run = async ({ api, event }) => {
     );
 
   } catch (error) {
-    console.error("BrotherSister command error:", error);
-    api.sendMessage("≿━━━━༺❀༻━━━━≾\n❌ 𝐄𝐫𝐫𝐨𝐫 𝐜𝐫𝐞𝐚𝐭𝐢𝐧𝐠 𝐢𝐦𝐚𝐠𝐞!\n≿━━━━༺❀༻━━━━≾", threadID, messageID);
+    console.error("Pair command error:", error);
+    api.sendMessage("≿━━━━༺❀༻━━━━≾\n❌ 𝐄𝐫𝐫𝐨𝐫 𝐜𝐫𝐞𝐚𝐭𝐢𝐧𝐠 𝐩𝐚𝐢𝐫!\n≿━━━━༺❀༻━━━━≾", threadID, messageID);
   }
 };
