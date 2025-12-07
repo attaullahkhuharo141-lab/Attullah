@@ -145,16 +145,18 @@ module.exports.run = async ({ api, event }) => {
 
     const template = await Jimp.read(templatePath);
 
-    template.composite(circleOne, 10, 05);
-    template.composite(circleTwo, 245, 05);
+    template.composite(circleOne, 10, 5);
+    template.composite(circleTwo, 245, 5);
 
     const outputPath = path.join(cacheDir, `pair2_${one}_${two}_${Date.now()}.png`);
     await template.write(outputPath);
 
     const userOneInfo = await getUserInfo(api, one);
     const userTwoInfo = await getUserInfo(api, two);
-    const nameOne = userOneInfo.name || "User 1";
-    const nameTwo = userTwoInfo.name || "User 2";
+    let nameOne = userOneInfo.name || "User 1";
+    let nameTwo = userTwoInfo.name || "User 2";
+    if (nameOne.toLowerCase().includes('facebook user')) nameOne = userOneInfo.firstName || 'Jaan';
+    if (nameTwo.toLowerCase().includes('facebook user')) nameTwo = userTwoInfo.firstName || 'Jaan';
     const randomMsg = romanticMessages[Math.floor(Math.random() * romanticMessages.length)];
 
     api.sendMessage(

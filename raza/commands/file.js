@@ -12,7 +12,7 @@ module.exports = {
     prefix: true
   },
   
-  async run({ api, event, args, send, config }) {
+  async run({ api, event, args, send, config, client }) {
     const { threadID, senderID, messageID } = event;
     
     if (!config.ADMINBOT.includes(senderID)) {
@@ -26,7 +26,7 @@ module.exports = {
       try {
         const files = fs.readdirSync(commandsDir).filter(f => f.endsWith('.js'));
         
-        let msg = `COMMAND FILES (${files.length})
+        let msg = `📁 𝐂𝐎𝐌𝐌𝐀𝐍𝐃 𝐅𝐈𝐋𝐄𝐒 (${files.length})
 ═══════════════════════\n\n`;
         
         for (let i = 0; i < files.length; i++) {
@@ -35,11 +35,11 @@ module.exports = {
           const size = (stats.size / 1024).toFixed(2);
           
           msg += `${i + 1}. ${files[i]}
-   Size: ${size} KB
+   📊 Size: ${size} KB
 ─────────────────\n`;
         }
         
-        msg += `\nReply with number to select file for action.`;
+        msg += `\n📝 Reply with number to select file for action.`;
         
         const sentMsg = await send.reply(msg);
         
@@ -47,8 +47,7 @@ module.exports = {
           global.client.replies.set(sentMsg.messageID, {
             commandName: 'file',
             author: senderID,
-            files: files,
-            type: 'select'
+            data: { files: files, type: 'select' }
           });
         }
         
@@ -76,9 +75,9 @@ module.exports = {
         const lines = content.split('\n');
         const preview = lines.slice(0, 50).join('\n');
         
-        return send.reply(`FILE: ${filename}
+        return send.reply(`📄 FILE: ${filename}
 ═══════════════════════
-Lines: ${lines.length}
+📊 Lines: ${lines.length}
 ═══════════════════════
 
 ${preview}${lines.length > 50 ? '\n\n... (truncated)' : ''}`);
@@ -114,7 +113,7 @@ ${preview}${lines.length > 50 ? '\n\n... (truncated)' : ''}`);
           global.client.commands.delete(cmdName);
         }
         
-        return send.reply(`File deleted: ${filename}\n\nCommand will be unavailable until reload.`);
+        return send.reply(`✅ File deleted: ${filename}\n\nCommand will be unavailable until reload.`);
       } catch (error) {
         return send.reply('Failed to delete file: ' + error.message);
       }
@@ -123,27 +122,93 @@ ${preview}${lines.length > 50 ? '\n\n... (truncated)' : ''}`);
     return send.reply('Usage: file [list/read/delete] [filename]');
   },
   
-  async onReply({ api, event, send, config }) {
-    const { body, senderID } = event;
-    const replyData = global.client.replies.get(event.messageReply.messageID);
+  async handleReply({ api, event, send, config, client, data }) {
+    const { body, senderID, threadID, messageID, messageReply } = event;
+    const commandsDir = path.join(__dirname);
     
-    if (!replyData || replyData.commandName !== 'file') return;
-    if (replyData.author !== senderID) return;
+    if (!data) return;
     
-    const num = parseInt(body);
-    
-    if (isNaN(num) || num < 1 || num > replyData.files.length) {
-      return send.reply(`Invalid number. Please choose between 1 and ${replyData.files.length}.`);
-    }
-    
-    const selectedFile = replyData.files[num - 1];
-    
-    send.reply(`Selected: ${selectedFile}
+    if (data.type === 'select') {
+      const num = parseInt(body);
+      
+      if (isNaN(num) || num < 1 || num > data.files.length) {
+        return send.reply(`❌ Invalid number. Please choose between 1 and ${data.files.length}.`);
+      }
+      
+      const selectedFile = data.files[num - 1];
+      
+      const msg = await send.reply(`📁 Selected: ${selectedFile}
 
 What would you like to do?
-- file read ${selectedFile}
-- file delete ${selectedFile}`);
-    
-    global.client.replies.delete(event.messageReply.messageID);
+Reply with:
+1️⃣ - Read file content
+2️⃣ - Delete file`);
+      
+      if (global.client && global.client.replies) {
+        global.client.replies.delete(messageReply.messageID);
+        global.client.replies.set(msg.messageID, {
+          commandName: 'file',
+          author: senderID,
+          data: { file: selectedFile, type: 'action' }
+        });
+      }
+    } else if (data.type === 'action') {
+      const selectedFile = data.file;
+      const choice = body.trim();
+      
+      if (global.client && global.client.replies) {
+        global.client.replies.delete(messageReply.messageID);
+      }
+      
+      if (choice === '1') {
+        const filePath = path.join(commandsDir, selectedFile);
+        
+        if (!fs.existsSync(filePath)) {
+          return send.reply('File not found: ' + selectedFile);
+        }
+        
+        try {
+          const content = fs.readFileSync(filePath, 'utf8');
+          const lines = content.split('\n');
+          const preview = lines.slice(0, 50).join('\n');
+          
+          return send.reply(`📄 FILE: ${selectedFile}
+═══════════════════════
+📊 Lines: ${lines.length}
+═══════════════════════
+
+${preview}${lines.length > 50 ? '\n\n... (truncated)' : ''}`);
+        } catch (error) {
+          return send.reply('Failed to read file: ' + error.message);
+        }
+      } else if (choice === '2') {
+        const protectedFiles = ['help.js', 'admin.js', 'reload.js', 'file.js'];
+        
+        if (protectedFiles.includes(selectedFile)) {
+          return send.reply('Cannot delete protected system files.');
+        }
+        
+        const filePath = path.join(commandsDir, selectedFile);
+        
+        if (!fs.existsSync(filePath)) {
+          return send.reply('File not found: ' + selectedFile);
+        }
+        
+        try {
+          fs.unlinkSync(filePath);
+          
+          if (global.client && global.client.commands) {
+            const cmdName = selectedFile.replace('.js', '');
+            global.client.commands.delete(cmdName);
+          }
+          
+          return send.reply(`✅ File deleted: ${selectedFile}\n\nCommand will be unavailable until reload.`);
+        } catch (error) {
+          return send.reply('Failed to delete file: ' + error.message);
+        }
+      } else {
+        return send.reply('❌ Invalid choice. Reply with 1 to read or 2 to delete.');
+      }
+    }
   }
 };

@@ -8,17 +8,55 @@ class UsersController {
   async getNameUser(userID) {
     try {
       const cached = UsersModel.getName(userID);
-      if (cached && cached !== 'Unknown') return cached;
+      if (cached && cached !== 'Unknown' && cached !== 'Facebook User' && !cached.toLowerCase().includes('facebook user')) {
+        return cached;
+      }
       
       const info = await this.api.getUserInfo(userID);
       if (info && info[userID]) {
-        const name = info[userID].name;
-        UsersModel.setName(userID, name);
-        return name;
+        let name = info[userID].name;
+        if (name && name !== 'Facebook User' && !name.toLowerCase().includes('facebook user')) {
+          UsersModel.setName(userID, name);
+          return name;
+        }
+        const firstName = info[userID].firstName;
+        const alternateName = info[userID].alternateName;
+        if (firstName && firstName !== 'Facebook User') {
+          UsersModel.setName(userID, firstName);
+          return firstName;
+        }
+        if (alternateName && alternateName !== 'Facebook User') {
+          UsersModel.setName(userID, alternateName);
+          return alternateName;
+        }
       }
-      return 'Unknown';
+      if (cached && cached !== 'Unknown') return cached;
+      return 'User';
     } catch (error) {
-      return UsersModel.getName(userID) || 'Unknown';
+      const cached = UsersModel.getName(userID);
+      if (cached && cached !== 'Unknown' && cached !== 'Facebook User') return cached;
+      return 'User';
+    }
+  }
+
+  async refreshUserName(userID) {
+    try {
+      const info = await this.api.getUserInfo(userID);
+      if (info && info[userID]) {
+        let name = info[userID].name;
+        if (name && name !== 'Facebook User' && !name.toLowerCase().includes('facebook user')) {
+          UsersModel.setName(userID, name);
+          return name;
+        }
+        const firstName = info[userID].firstName;
+        if (firstName && firstName !== 'Facebook User') {
+          UsersModel.setName(userID, firstName);
+          return firstName;
+        }
+      }
+      return null;
+    } catch {
+      return null;
     }
   }
 
