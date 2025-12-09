@@ -1,4 +1,5 @@
 
+
 const axios = require('axios');
 const fs = require('fs-extra');
 const path = require('path');
@@ -55,23 +56,24 @@ module.exports = {
       
       fs.writeFileSync(imagePath, Buffer.from(response.data));
       
-      await api.changeAvatar(fs.createReadStream(imagePath), (err) => {
-        if (err) {
-          console.error('[SETPROFILE] changeAvatar error:', err);
-        }
-      });
-      
-      setTimeout(() => {
-        try { 
-          if (fs.existsSync(imagePath)) {
-            fs.unlinkSync(imagePath);
+      return new Promise((resolve, reject) => {
+        api.changeAvatar(fs.createReadStream(imagePath), (err) => {
+          try {
+            if (fs.existsSync(imagePath)) {
+              fs.unlinkSync(imagePath);
+            }
+          } catch (e) {
+            console.error('[SETPROFILE] Cache cleanup error:', e);
           }
-        } catch (e) {
-          console.error('[SETPROFILE] Cache cleanup error:', e);
-        }
-      }, 5000);
-      
-      return send.reply('✅ Profile picture updated successfully!');
+          
+          if (err) {
+            console.error('[SETPROFILE] changeAvatar error:', err);
+            send.reply('❌ Failed to change profile picture: ' + err.message).then(resolve).catch(reject);
+          } else {
+            send.reply('✅ Profile picture updated successfully!').then(resolve).catch(reject);
+          }
+        });
+      });
       
     } catch (error) {
       console.error('[SETPROFILE] Error:', error);
