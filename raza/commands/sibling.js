@@ -7,7 +7,7 @@ module.exports.config = {
   name: "sibling",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "KASHIF RAZA",
+  credits: "Attaullah",
   description: "Create a brother-sister bond edit with circular profile pics",
   commandCategory: "Family",
   usages: "[@mention optional]",
