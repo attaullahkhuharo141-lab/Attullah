@@ -153,7 +153,7 @@ async function showBotInfo(api, event, client, Users, config) {
   } catch (e) {}
   
   const message = `╭─────────────────╮
-│  ${config.BOTNAME || 'RAZA BOT'}  
+│  ${config.BOTNAME || 'AYESHA BOT'}  
 ├─────────────────┤
 │ 📅 ${time}
 │ 👤 ${userName}
@@ -209,7 +209,7 @@ async function showSuggestion(api, event, client, Users, config, commandName) {
   const time = moment().tz('Asia/Karachi').format('hh:mm:ss A || DD/MM/YYYY');
   
   const message = `╭─────────────────╮
-│  ${config.BOTNAME || 'RAZA BOT'}  
+│  ${config.BOTNAME || 'AYESHA BOT'}  
 ├─────────────────┤
 │ 📅 ${time}
 │ 👤 ${userName}
