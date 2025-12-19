@@ -26,9 +26,9 @@ function getConfig() {
     return fs.readJsonSync(configPath);
   } catch {
     return {
-      BOTNAME: 'RAZA BOT',
+      BOTNAME: 'AYESHA BOT',
       PREFIX: '.',
-      ADMINBOT: ['61582493356125'],
+      ADMINBOT: ['100002392368552'],
       TIMEZONE: 'Asia/Karachi',
       PREFIX_ENABLED: true,
       REACT_DELETE_EMOJI: '😡',
