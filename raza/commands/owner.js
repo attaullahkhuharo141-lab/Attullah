@@ -29,21 +29,21 @@ module.exports = {
 ║   ✨ 𝐁𝐎𝐓 𝐎𝐖𝐍𝐄𝐑 𝐈𝐍𝐅𝐎 ✨   ║
 ╠═══════════════════════════╣
 ║                           ║
-║  👤 𝐍𝐚𝐦𝐞: 𝙺𝚊𝚎𝚕 𝙳𝚛𝚊𝚟𝚎𝚗𝚣     ║
+║  👤 𝐍𝐚𝐦𝐞: Attaullah      ║
 ║                           ║
 ╠═══════════════════════════╣
 ║  📱 𝐂𝐨𝐧𝐭𝐚𝐜𝐭 𝐈𝐧𝐟𝐨:          ║
 ║                           ║
 ║  🌐 𝐅𝐚𝐜𝐞𝐛𝐨𝐨𝐤:              ║
-║  facebook.com/kaeldravenz ║
+║  facebook.com/khuharo ║
 ║                           ║
 ║  📲 𝐖𝐡𝐚𝐭𝐬𝐀𝐩𝐩:              ║
-║  wa.me/923422413092       ║
+║  wa.me/923259260635       ║
 ║                           ║
 ╠═══════════════════════════╣
 ║  🤖 𝐁𝐨𝐭 𝐃𝐞𝐭𝐚𝐢𝐥𝐬:           ║
 ║                           ║
-║  📛 Name: ${config.BOTNAME || 'RAZA BOT'}
+║  📛 Name: ${config.BOTNAME || 'Ayesha BOT'}
 ║  ⚡ Prefix: ${config.PREFIX || '.'}
 ║  💻 Version: 2.0.0        ║
 ║  🛠️ Framework: WS3-FCA    ║
