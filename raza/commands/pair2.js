@@ -7,7 +7,7 @@ module.exports.config = {
   name: "pair2",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "KASHIF RAZA",
+  credits: "ATTAULLAH",
   description: "Create a romantic pair edit with golden circles",
   commandCategory: "Love",
   usages: "[@mention optional]",
