@@ -1,5 +1,5 @@
 {
-  "name": "raza-bot",
+  "name": "AYESHA-BOT",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,7 @@
     "bot",
     "fca"
   ],
-  "author": "RAZA BOT",
+  "author": "AYESHA BOT",
   "license": "ISC",
   "description": "Facebook Messenger Bot with Islamic posts and group management",
   "dependencies": {
