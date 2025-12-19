@@ -16,10 +16,10 @@ module.exports = {
     const { threadID, messageID } = event;
 
     const ownerPics = [
-      'https://i.ibb.co/672Zf20L/99ea4edb30db.jpg',
-      'https://i.ibb.co/bRBZxk9v/20df2c060ec2.jpg',
-      'https://i.ibb.co/gMkf5Dmk/252782e1baf1.jpg',
-      'https://i.ibb.co/PspxZNzh/b247dec7d443.jpg'
+      'https://i.postimg.cc/L5sgqq0w/FB-IMG-17605572622668081.jpg',
+      'https://i.postimg.cc/L5sgqq0w/FB-IMG-17605572622668081.jpg',
+      'https://i.postimg.cc/L5sgqq0w/FB-IMG-17605572622668081.jpg',
+      'https://i.postimg.cc/L5sgqq0w/FB-IMG-17605572622668081.jpg'
     ];
 
     const randomPic = ownerPics[Math.floor(Math.random() * ownerPics.length)];
