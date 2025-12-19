@@ -7,7 +7,7 @@ module.exports.config = {
   name: "pair",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "KASHIF RAZA",
+  credits: "ATTAULLAH",
   description: "Create a romantic pair edit with profile pics",
   commandCategory: "Love",
   usages: "[@mention optional]",
